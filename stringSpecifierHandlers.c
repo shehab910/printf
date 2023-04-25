@@ -57,3 +57,26 @@ void handleDefault(int *count, char c)
 	_putchar(c);
 	(*count) += 2;
 }
+
+/**
+ * handleReverse - handles the printing of strings in reverse
+ * @count: pointer to the count of characters printed
+ * @args: list of arguments
+ */
+void handleReverse(int *count, va_list args)
+{
+	char *s;
+	int j;
+
+	s = va_arg(args, char *);
+	if (s == NULL)
+		s = "(null)";
+	for (j = 0; s[j] != '\0'; j++)
+		;
+	j--;
+	for (; j >= 0; j--)
+	{
+		_putchar(s[j]);
+		(*count)++;
+	}
+}

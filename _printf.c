@@ -43,6 +43,9 @@ void handleCases(int *count, va_list args, const char fChar)
 	case 'p':
 		handlePointer(count, args);
 		break;
+	case 'r':
+		handleReverse(count, args);
+		break;
 	default:
 		handleDefault(count, fChar);
 		break;
