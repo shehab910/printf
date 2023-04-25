@@ -2,7 +2,7 @@
 #include "main.h"
 
 /**
- * print_number - converts an integer to a string and prints it
+ * print_int - converts an integer to a string and prints it
  * @n: integer to be converted
  * @count: pointer to the count of characters printed
  * @base: base to convert integer to
@@ -33,6 +33,12 @@ void print_int(int n, int *count, int base, int isSigned, int isUpper)
 	}
 	(*count)++;
 }
+
+/**
+ * print_long_int - converts an integer to a string and prints it
+ * @num: integer to be converted
+ * @count: pointer to the count of characters printed
+ */
 void print_long_int(long int num, int *count)
 {
 	long int digit;
