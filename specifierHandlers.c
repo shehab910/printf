@@ -6,20 +6,28 @@
  * @n: integer to be converted
  * @count: pointer to the count of characters printed
  */
-void print_number(int n, int *count)
+void print_number(int n, int *count, int base, int isSigned, int isUpper)
 {
 	unsigned int num = n;
 
-	if (n < 0)
+	if (isSigned && n < 0)
 	{
 		_putchar('-');
 		(*count)++;
 		num = -num;
 	}
-	if (num / 10)
-		print_number(num / 10, count);
-
-	_putchar((num % 10) + '0');
+	if (num / base)
+		print_number(num / base, count, base, isSigned, isUpper);
+	unsigned int digit = num % base;
+	if (digit < 10)
+		_putchar(digit + '0');
+	else
+	{
+		if (isUpper)
+			_putchar(digit - 10 + 'A');
+		else
+			_putchar(digit - 10 + 'a');
+	}
 	(*count)++;
 }
 
@@ -29,10 +37,12 @@ void print_number(int n, int *count)
  * @count: pointer to the count of characters printed
  * @args: list of arguments
  */
-void handleNumber(int j, int *count, va_list args)
+void handleNumber(int *count, va_list args, int base, int isSigned)
 {
+	int j;
+
 	j = va_arg(args, int);
-	print_number(j, count);
+	print_number(j, count, base, isSigned, 0);
 }
 
 /**
@@ -77,4 +87,33 @@ void handlePercent(int *count)
 {
 	_putchar('%');
 	(*count)++;
+}
+
+/**
+ * handleDefault - handles the default case
+ * @count: pointer to the count of characters printed
+ * @c: character to be printed
+ *
+ */
+void handleDefault(int *count, char c)
+{
+	_putchar('%');
+	_putchar(c);
+	(*count) += 2;
+}
+
+/**
+ * handleHex - handles the printing of hexadecimal numbers
+ * @count: pointer to the count of characters printed
+ * @args: list of arguments
+ * @upper: flag to determine if hex should be uppercase
+ */
+void handleHex(int *count, va_list args, int upper)
+{
+	int j;
+	unsigned int num;
+
+	j = va_arg(args, int);
+	num = j;
+	print_number(num, count, 16, 0, upper);
 }

@@ -7,7 +7,7 @@
  * @format: is a character string.
  * The format string is composed of zero or more directives.
  * You need to handle the following conversion specifiers:
- * c, s, %, d, i
+ * c, s, %, d, i, u, o, x, X
  * You don’t have to handle:
  * reproduction of the buffer handling of the C
  * library printf function
@@ -45,12 +45,22 @@ int _printf(const char *format, ...)
 				break;
 			case 'd':
 			case 'i':
-				handleNumber(j, &count, args);
+				handleNumber(&count, args, 10, 1);
+				break;
+			case 'u':
+				handleNumber(&count, args, 10, 0);
+				break;
+			case 'o':
+				handleNumber(&count, args, 8, 0);
+				break;
+			case 'x':
+				handleHex(&count, args, 0);
+				break;
+			case 'X':
+				handleHex(&count, args, 1);
 				break;
 			default:
-				_putchar('%');
-				_putchar(format[i]);
-				count += 2;
+				handleDefault(&count, format[i]);
 				break;
 			}
 		}
