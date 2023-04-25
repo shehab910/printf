@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
 #include "main.h"
 
 /**
@@ -8,7 +7,7 @@
  * @format: is a character string.
  * The format string is composed of zero or more directives.
  * You need to handle the following conversion specifiers:
- * c,s, %
+ * c, s, %, d, i
  * You don’t have to handle:
  * reproduction of the buffer handling of the C
  * library printf function
@@ -23,34 +22,26 @@ int _printf(const char *format, ...)
 {
 	va_list args;
 	int i = 0, j = 0, count = 0;
-	char *s;
 
 	va_start(args, format);
 	while (format[i] != '\0')
 	{
 		if (format[i] == '%')
 		{
-			i++;
-			switch (format[i])
+			switch (format[++i])
 			{
 			case 'c':
-				j = va_arg(args, int);
-				_putchar(j);
-				count++;
+				handleChar(&count, args);
 				break;
 			case 's':
-				s = va_arg(args, char *);
-				if (s == NULL)
-					s = "(null)";
-				for (j = 0; s[j] != '\0'; j++)
-				{
-					_putchar(s[j]);
-					count++;
-				}
+				handleString(&count, args);
 				break;
 			case '%':
-				_putchar('%');
-				count++;
+				handlePercent(&count);
+				break;
+			case 'd':
+			case 'i':
+				handleNumber(j, &count, args);
 				break;
 			default:
 				_putchar('%');
