@@ -3,6 +3,47 @@
 #include "main.h"
 
 /**
+ * handleCases - handles the cases for the format specifier
+ * @count: pointer to the count of characters printed
+ * @args: list of arguments
+ * @fChar: format character
+ */
+void handleCases(int *count, va_list args, const char fChar)
+{
+	switch (fChar)
+	{
+	case 'c':
+		handleChar(count, args);
+		break;
+	case 's':
+		handleString(count, args);
+		break;
+	case '%':
+		handlePercent(count);
+		break;
+	case 'd':
+	case 'i':
+		handleNumber(count, args, 10, 1);
+		break;
+	case 'u':
+		handleNumber(count, args, 10, 0);
+		break;
+	case 'o':
+		handleNumber(count, args, 8, 0);
+		break;
+	case 'x':
+		handleHex(count, args, 0);
+		break;
+	case 'X':
+		handleHex(count, args, 1);
+		break;
+	default:
+		handleDefault(count, fChar);
+		break;
+	}
+}
+
+/**
  * _printf -  produces output according to a format.
  * @format: is a character string.
  * The format string is composed of zero or more directives.
@@ -21,7 +62,7 @@
 int _printf(const char *format, ...)
 {
 	va_list args;
-	int i = 0, j = 0, count = 0;
+	int i = 0, count = 0;
 
 	if (!format || (format[0] == '%' && !format[1]))
 		return (-1);
@@ -32,37 +73,8 @@ int _printf(const char *format, ...)
 	{
 		if (format[i] == '%')
 		{
-			switch (format[++i])
-			{
-			case 'c':
-				handleChar(&count, args);
-				break;
-			case 's':
-				handleString(&count, args);
-				break;
-			case '%':
-				handlePercent(&count);
-				break;
-			case 'd':
-			case 'i':
-				handleNumber(&count, args, 10, 1);
-				break;
-			case 'u':
-				handleNumber(&count, args, 10, 0);
-				break;
-			case 'o':
-				handleNumber(&count, args, 8, 0);
-				break;
-			case 'x':
-				handleHex(&count, args, 0);
-				break;
-			case 'X':
-				handleHex(&count, args, 1);
-				break;
-			default:
-				handleDefault(&count, format[i]);
-				break;
-			}
+			i++;
+			handleCases(&count, args, format[i]);
 		}
 		else
 		{

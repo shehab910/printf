@@ -5,10 +5,13 @@
  * print_number - converts an integer to a string and prints it
  * @n: integer to be converted
  * @count: pointer to the count of characters printed
+ * @base: base to convert integer to
+ * @isSigned: 1 if integer is signed, 0 if unsigned
+ * @isUpper: 1 if hex letters should be uppercase, 0 if lowercase
  */
 void print_number(int n, int *count, int base, int isSigned, int isUpper)
 {
-	unsigned int num = n;
+	unsigned int num = n, digit;
 
 	if (isSigned && n < 0)
 	{
@@ -18,7 +21,7 @@ void print_number(int n, int *count, int base, int isSigned, int isUpper)
 	}
 	if (num / base)
 		print_number(num / base, count, base, isSigned, isUpper);
-	unsigned int digit = num % base;
+	digit = num % base;
 	if (digit < 10)
 		_putchar(digit + '0');
 	else
@@ -33,9 +36,10 @@ void print_number(int n, int *count, int base, int isSigned, int isUpper)
 
 /**
  * handleNumber - handles the printing of numbers
- * @j: integer to be printed
  * @count: pointer to the count of characters printed
  * @args: list of arguments
+ * @base: base to convert integer to
+ * @isSigned: 1 if integer is signed, 0 if unsigned
  */
 void handleNumber(int *count, va_list args, int base, int isSigned)
 {
@@ -43,63 +47,6 @@ void handleNumber(int *count, va_list args, int base, int isSigned)
 
 	j = va_arg(args, int);
 	print_number(j, count, base, isSigned, 0);
-}
-
-/**
- * handleString - handles the printing of strings
- * @count: pointer to the count of characters printed
- * @args: list of arguments
- */
-void handleString(int *count, va_list args)
-{
-	char *s;
-	int j;
-
-	s = va_arg(args, char *);
-	if (s == NULL)
-		s = "(null)";
-	for (j = 0; s[j] != '\0'; j++)
-	{
-		_putchar(s[j]);
-		(*count)++;
-	}
-}
-
-/**
- * handleChar - handles the printing of characters
- * @count: pointer to the count of characters printed
- * @args: list of arguments
- */
-void handleChar(int *count, va_list args)
-{
-	int j;
-
-	j = va_arg(args, int);
-	_putchar(j);
-	(*count)++;
-}
-
-/**
- * handlePercent - handles the printing of percent signs
- * @count: pointer to the count of characters printed
- */
-void handlePercent(int *count)
-{
-	_putchar('%');
-	(*count)++;
-}
-
-/**
- * handleDefault - handles the default case
- * @count: pointer to the count of characters printed
- * @c: character to be printed
- *
- */
-void handleDefault(int *count, char c)
-{
-	_putchar('%');
-	_putchar(c);
-	(*count) += 2;
 }
 
 /**
