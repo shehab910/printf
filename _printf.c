@@ -28,6 +28,9 @@ void handleCases(int *count, va_list args, const char fChar)
 	case 'u':
 		handleNumber(count, args, 10, 0);
 		break;
+	case 'b':
+		handleNumber(count, args, 2, 0);
+		break;
 	case 'o':
 		handleNumber(count, args, 8, 0);
 		break;
