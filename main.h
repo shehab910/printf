@@ -11,5 +11,6 @@ void handleChar(int *count, va_list args);
 void handlePercent(int *count);
 void handleDefault(int *count, char c);
 void handleHex(int *count, va_list args, int upper);
+void handlePointer(int *count, va_list args);
 
 #endif

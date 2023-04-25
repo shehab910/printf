@@ -9,7 +9,7 @@
  * @isSigned: 1 if integer is signed, 0 if unsigned
  * @isUpper: 1 if hex letters should be uppercase, 0 if lowercase
  */
-void print_number(int n, int *count, int base, int isSigned, int isUpper)
+void print_int(int n, int *count, int base, int isSigned, int isUpper)
 {
 	unsigned int num = n, digit;
 
@@ -20,7 +20,7 @@ void print_number(int n, int *count, int base, int isSigned, int isUpper)
 		num = -num;
 	}
 	if (num / base)
-		print_number(num / base, count, base, isSigned, isUpper);
+		print_int(num / base, count, base, isSigned, isUpper);
 	digit = num % base;
 	if (digit < 10)
 		_putchar(digit + '0');
@@ -31,6 +31,19 @@ void print_number(int n, int *count, int base, int isSigned, int isUpper)
 		else
 			_putchar(digit - 10 + 'a');
 	}
+	(*count)++;
+}
+void print_long_int(long int num, int *count)
+{
+	long int digit;
+
+	if (num / 16)
+		print_long_int(num / 16, count);
+	digit = num % 16;
+	if (digit < 10)
+		_putchar(digit + '0');
+	else
+		_putchar(digit - 10 + 'a');
 	(*count)++;
 }
 
@@ -46,7 +59,7 @@ void handleNumber(int *count, va_list args, int base, int isSigned)
 	int j;
 
 	j = va_arg(args, int);
-	print_number(j, count, base, isSigned, 0);
+	print_int(j, count, base, isSigned, 0);
 }
 
 /**
@@ -62,5 +75,21 @@ void handleHex(int *count, va_list args, int upper)
 
 	j = va_arg(args, int);
 	num = j;
-	print_number(num, count, 16, 0, upper);
+	print_int(num, count, 16, 0, upper);
+}
+
+/**
+ * handlePointer - handles the printing of pointers
+ * @count: pointer to the count of characters printed
+ * @args: list of arguments
+ */
+void handlePointer(int *count, va_list args)
+{
+	unsigned long int p;
+
+	p = va_arg(args, long int);
+	_putchar('0');
+	_putchar('x');
+	(*count) += 2;
+	print_long_int(p, count);
 }

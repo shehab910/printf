@@ -40,6 +40,9 @@ void handleCases(int *count, va_list args, const char fChar)
 	case 'X':
 		handleHex(count, args, 1);
 		break;
+	case 'p':
+		handlePointer(count, args);
+		break;
 	default:
 		handleDefault(count, fChar);
 		break;
