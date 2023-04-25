@@ -17,11 +17,10 @@ void print_number(int n, int *count)
 		num = -num;
 	}
 	if (num / 10)
-	{
 		print_number(num / 10, count);
-		(*count)++;
-	}
+
 	_putchar((num % 10) + '0');
+	(*count)++;
 }
 
 /**
